@@ -49,6 +49,7 @@ pipeline {
             steps {
                 sh """
                     docker build \
+                        -f ./${SERVICE}/Dockerfile.lmp \
                         -t ${IMAGE}:${GIT_COMMIT} \
                         -t ${IMAGE}:latest \
                         ./${SERVICE}
