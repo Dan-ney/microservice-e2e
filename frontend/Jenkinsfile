@@ -6,7 +6,7 @@ pipeline {
         REGION     = 'asia-south1'
         REGISTRY   = 'asia-south1-docker.pkg.dev'
         SERVICE    = 'frontend'
-        IMAGE      = "asia-south1-docker.pkg.dev/project-75c9b927-531d-4e58-a2b/frontend"
+        IMAGE      = "asia-south1-docker.pkg.dev/project-75c9b927-531d-4e58-a2b/frontend/frontend"
     }
 
     stages {
