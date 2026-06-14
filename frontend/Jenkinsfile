@@ -1,0 +1,69 @@
+pipeline {
+    agent any
+
+    environment {
+        PROJECT_ID = 'project-75c9b927-531d-4e58-a2b'
+        REGION     = 'asia-south1'
+        REGISTRY   = 'asia-south1-docker.pkg.dev'
+        SERVICE    = 'frontend'
+        IMAGE      = "asia-south1-docker.pkg.dev/project-75c9b927-531d-4e58-a2b/frontend"
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Configure Docker Auth') {
+            steps {
+                sh """
+                    gcloud auth configure-docker ${REGISTRY} --quiet
+                """
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh """
+                    docker build \
+                        -t ${IMAGE}:${GIT_COMMIT} \
+                        -t ${IMAGE}:latest \
+                        ./${SERVICE}
+                """
+            }
+        }
+
+        stage('Push') {
+            steps {
+                sh """
+                    docker push ${IMAGE}:${GIT_COMMIT}
+                    docker push ${IMAGE}:latest
+                """
+            }
+        }
+
+        stage('Cleanup') {
+            steps {
+                sh """
+                    docker rmi ${IMAGE}:${GIT_COMMIT} || true
+                    docker rmi ${IMAGE}:latest || true
+                """
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "${SERVICE} image pushed: ${IMAGE}:${GIT_COMMIT}"
+        }
+        failure {
+            echo "${SERVICE} pipeline failed!"
+        }
+        always {
+            cleanWs()
+        }
+    }
+}
