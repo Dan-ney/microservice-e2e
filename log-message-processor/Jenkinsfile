@@ -8,7 +8,7 @@ pipeline {
         SERVICE = 'log-message-processor'
         IMAGE   = "asia-south1-docker.pkg.dev/project-75c9b927-531d-4e58-a2b/log-message-processor/log-message-processor"
     }
-
+    
     stages {
 
         stage('Check Changes') {
