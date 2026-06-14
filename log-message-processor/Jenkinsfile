@@ -57,10 +57,10 @@ pipeline {
 
     post {
         success {
-            echo "✅ ${SERVICE} image pushed: ${IMAGE}:${GIT_COMMIT}"
+            echo "${SERVICE} image pushed: ${IMAGE}:${GIT_COMMIT}"
         }
         failure {
-            echo "❌ ${SERVICE} pipeline failed!"
+            echo "${SERVICE} pipeline failed!"
         }
         always {
             cleanWs()
