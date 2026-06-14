@@ -48,7 +48,6 @@ pipeline {
             steps {
                 sh """
                     docker build \
-                        -f ./${SERVICE}/Dockerfile.fe \
                         -t ${IMAGE}:${GIT_COMMIT} \
                         -t ${IMAGE}:latest \
                         ./${SERVICE}
